@@ -1,0 +1,107 @@
+﻿@model DogGoMVC.Models.ViewModels.WalkerViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Walker Profile</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <img class="bg-info" src="@Model.Walker.ImageUrl" alt="avatar" />
+        </dt>
+        <dl class="col-sm-8">
+            <dl class="row">
+                <dt class = "col-sm-4 text-right">
+                    @Html.DisplayNameFor(model => model.Walker.Name)
+                </dt>
+                <dd class = "col-sm-4 text-left">
+                    @Html.DisplayFor(model => model.Walker.Name)
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class = "col-sm-4 text-right">
+                    @Html.DisplayNameFor(model => model.Walker.NeighborhoodId)
+                </dt>
+                <dd class = "col-sm-4 text-left">
+                    @Html.DisplayFor(model => model.Walker.NeighborhoodId)
+                </dd>
+            </dl>
+        </dl>
+    </dl>
+
+    <div class="row">
+        <div class="col-sm-6 bg-white pl-2">
+            <h4>Recent Walks</h4>
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-3 p-0">
+                        <h6>Date</h6>
+                    </div>
+                    <div class="col p-0">
+                        <h6>Client</h6>
+                    </div>
+                    <div class="col p-0">
+                        <h6>Duration</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (Walk walk in Model.Walk)
+                    {
+                        <div class="col-3 p-0">
+                            @walk.Date.ToShortDateString()
+                        </div>
+                        <div class="col p-0">
+                            @walk.Dog.Owner.Name
+                        </div>
+                        <div class="col p-0">
+                            @TimeSpan.FromSeconds(walk.Duration)
+                        </div>
+                        <div class="w-100">
+                            @*//empty div to force next walk to a seperate line and make div act like a table*@
+                       </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 bg-light">
+            <div class="row">
+                <h4 class="text-muted">Total Walk Time: &nbsp;</h4>
+                <h4>@TimeSpan.FromSeconds(Model.Walk.Sum(walk => walk.Duration))</h4>
+            </div>
+        </div>
+    </div>
+    @*<dl class="row">
+            <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NeighborhoodId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NeighborhoodId)
+        </dd>
+        <dt class = "col-sm-2">
+            <img class="bg-info" src="@Model.ImageUrl" alt="avatar" />
+        </dt>
+        <dd class = "col-sm-10">
+            <img class="bg-info" src="@Model.ImageUrl" alt="avatar" />
+        </dd>
+    </dl>*@
+</div>
+<div class="mt-5">
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
